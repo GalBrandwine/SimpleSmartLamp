@@ -32,3 +32,4 @@ log/
 *.exe
 *.out
 *.app
+out/

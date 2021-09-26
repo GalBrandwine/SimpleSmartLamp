@@ -1,326 +1,39 @@
 <!DOCTYPE HTML>
 <html>
-<!-- Gal Brandwine -->
 
 <head>
-    <title>SkyNet - by Bal Brandwine</title>
+    <title>SmartLamp - by Gal Brandwine</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="icon" href="data:,">
-    <link rel="stylesheet" type="text/css" href="style.css"> <!-- Tells the html that we are using css. -->
+    <link rel="stylesheet" type="text/css" href="gals_best_style_ever.css">
+    <!-- Tells the html that we are using css. -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet">
     <script src="https://code.highcharts.com/highcharts.js"></script>
 </head>
 
 
 <body>
-    <img src="cloud_1.jpg" alt="This is Cloud master image">
-    <h1>Welcome to SkyNet</h1>
-    <h2>This is MasterCloud</h2>
+    <img src="silly_unicorn.jpg" alt="This is a silly_unicorn">
+    <!-- <object data="RoosterHead.svg" width="300" height="300"> </object> -->
 
+    <h1>Smart Lamp</h1>
+    <h2>Making stupid project using smart ideas</h2>
 
-    <div class="side-by-side">
-        <div class="note">
-            <a> Current system time:</a>
-            <a id="currentSystemTime"> 00:00</a>
-        </div>
-    </div>
+    <form action="/color_selector.php">
+        <label for="favcolor">Select your favorite color:</label>
+        <input type="color" id="favcolor" name="favcolor" value="#ff0000"><br><br>
+        <input type="checkbox" id="timeofday" name="timeofday" value="OK">
+        <label for="vehicle1"> Color by time of day</label><br><br>
 
-    <br>
-
-    <div class="side-by-side">
-        <div class="note">
-            <a> Current weather:</a>
-            <a id="currentSystemWeather"> None</a>
-        </div>
-    </div>
-    <br>
-
-    <br>
-
-    <div class="side-by-side">
-        <div class="note">
-            <h2>Brightness settings</h2>
-            <input type="range" min="0" max="255" value="50" class="slider" id="ledBrightness">
-        </div>
-    </div>
-
-    <br>
-
-    <div class="side-by-side">
-        <div class="note">
-            <h2>Time and date settings</h2>
-            <div class="dropdown">
-                <button class="dropbtn">Hours</button>
-                <div class="dropdown-content">
-                    <button onclick="setCurrentSystemTimeHour('0')" class="button">0 AM</button>
-                    <button onclick="setCurrentSystemTimeHour('1')" class="button">1 AM</button>
-                    <button onclick="setCurrentSystemTimeHour('2')" class="button">2</button>
-                    <button onclick="setCurrentSystemTimeHour('3')" class="button">3</button>
-                    <button onclick="setCurrentSystemTimeHour('4')" class="button">4</button>
-                    <button onclick="setCurrentSystemTimeHour('5')" class="button">5</button>
-                    <button onclick="setCurrentSystemTimeHour('6')" class="button">6</button>
-                    <button onclick="setCurrentSystemTimeHour('7')" class="button">7</button>
-                    <button onclick="setCurrentSystemTimeHour('8')" class="button">8</button>
-                    <button onclick="setCurrentSystemTimeHour('9')" class="button">9</button>
-                    <button onclick="setCurrentSystemTimeHour('10')" class="button">10</button>
-                    <button onclick="setCurrentSystemTimeHour('11')" class="button">11</button>
-                    <button onclick="setCurrentSystemTimeHour('12')" class="button">12</button>
-                    <button onclick="setCurrentSystemTimeHour('13')" class="button">13</button>
-                    <button onclick="setCurrentSystemTimeHour('14')" class="button">14</button>
-                    <button onclick="setCurrentSystemTimeHour('15')" class="button">15</button>
-                    <button onclick="setCurrentSystemTimeHour('16')" class="button">16</button>
-                    <button onclick="setCurrentSystemTimeHour('17')" class="button">17</button>
-                    <button onclick="setCurrentSystemTimeHour('18')" class="button">18</button>
-                    <button onclick="setCurrentSystemTimeHour('19')" class="button">19</button>
-                    <button onclick="setCurrentSystemTimeHour('20')" class="button">20</button>
-                    <button onclick="setCurrentSystemTimeHour('21')" class="button">21</button>
-                    <button onclick="setCurrentSystemTimeHour('22')" class="button">22</button>
-                    <button onclick="setCurrentSystemTimeHour('23')" class="button">23</button>
-                    <!-- <button onclick="setCurrentSystemTimeHour('24')" class="button">24</button> -->
-                </div>
-            </div>
-            <div class="dropdown">
-                <button class="dropbtn">Minutes</button>
-                <div class="dropdown-content">
-                    <button onclick="setCurrentSystemTimeMinute('0')" class="button">0</button>
-                    <button onclick="setCurrentSystemTimeMinute('1')" class="button">1</button>
-                    <button onclick="setCurrentSystemTimeMinute('2')" class="button">2</button>
-                    <button onclick="setCurrentSystemTimeMinute('3')" class="button">3</button>
-                    <button onclick="setCurrentSystemTimeMinute('4')" class="button">4</button>
-                    <button onclick="setCurrentSystemTimeMinute('5')" class="button">5</button>
-                    <button onclick="setCurrentSystemTimeMinute('6')" class="button">6</button>
-                    <button onclick="setCurrentSystemTimeMinute('7')" class="button">7</button>
-                    <button onclick="setCurrentSystemTimeMinute('8')" class="button">8</button>
-                    <button onclick="setCurrentSystemTimeMinute('9')" class="button">9</button>
-                    <button onclick="setCurrentSystemTimeMinute('10')" class="button">10</button>
-                    <button onclick="setCurrentSystemTimeMinute('11')" class="button">11</button>
-                    <button onclick="setCurrentSystemTimeMinute('12')" class="button">12</button>
-                    <button onclick="setCurrentSystemTimeMinute('13')" class="button">13</button>
-                    <button onclick="setCurrentSystemTimeMinute('14')" class="button">14</button>
-                    <button onclick="setCurrentSystemTimeMinute('15')" class="button">15</button>
-                    <button onclick="setCurrentSystemTimeMinute('16')" class="button">16</button>
-                    <button onclick="setCurrentSystemTimeMinute('17')" class="button">17</button>
-                    <button onclick="setCurrentSystemTimeMinute('18')" class="button">18</button>
-                    <button onclick="setCurrentSystemTimeMinute('19')" class="button">19</button>
-                    <button onclick="setCurrentSystemTimeMinute('20')" class="button">20</button>
-                    <button onclick="setCurrentSystemTimeMinute('21')" class="button">21</button>
-                    <button onclick="setCurrentSystemTimeMinute('22')" class="button">22</button>
-                    <button onclick="setCurrentSystemTimeMinute('23')" class="button">23</button>
-                    <button onclick="setCurrentSystemTimeMinute('24')" class="button">24</button>
-                    <button onclick="setCurrentSystemTimeMinute('25')" class="button">25</button>
-                    <button onclick="setCurrentSystemTimeMinute('26')" class="button">26</button>
-                    <button onclick="setCurrentSystemTimeMinute('27')" class="button">27</button>
-                    <button onclick="setCurrentSystemTimeMinute('28')" class="button">28</button>
-                    <button onclick="setCurrentSystemTimeMinute('29')" class="button">29</button>
-                    <button onclick="setCurrentSystemTimeMinute('30')" class="button">30</button> <!-- 30 Minutes -->
-                    <button onclick="setCurrentSystemTimeMinute('31')" class="button">31</button>
-                    <button onclick="setCurrentSystemTimeMinute('32')" class="button">32</button>
-                    <button onclick="setCurrentSystemTimeMinute('33')" class="button">33</button>
-                    <button onclick="setCurrentSystemTimeMinute('34')" class="button">34</button>
-                    <button onclick="setCurrentSystemTimeMinute('35')" class="button">35</button>
-                    <button onclick="setCurrentSystemTimeMinute('36')" class="button">36</button>
-                    <button onclick="setCurrentSystemTimeMinute('37')" class="button">37</button>
-                    <button onclick="setCurrentSystemTimeMinute('38')" class="button">38</button>
-                    <button onclick="setCurrentSystemTimeMinute('39')" class="button">39</button>
-                    <button onclick="setCurrentSystemTimeMinute('40')" class="button">40</button>
-                    <button onclick="setCurrentSystemTimeMinute('41')" class="button">41</button>
-                    <button onclick="setCurrentSystemTimeMinute('42')" class="button">42</button>
-                    <button onclick="setCurrentSystemTimeMinute('43')" class="button">43</button>
-                    <button onclick="setCurrentSystemTimeMinute('44')" class="button">44</button>
-                    <button onclick="setCurrentSystemTimeMinute('45')" class="button">45</button>
-                    <button onclick="setCurrentSystemTimeMinute('46')" class="button">46</button>
-                    <button onclick="setCurrentSystemTimeMinute('47')" class="button">47</button>
-                    <button onclick="setCurrentSystemTimeMinute('48')" class="button">48</button>
-                    <button onclick="setCurrentSystemTimeMinute('49')" class="button">49</button>
-                    <button onclick="setCurrentSystemTimeMinute('50')" class="button">50</button>
-                    <button onclick="setCurrentSystemTimeMinute('51')" class="button">51</button>
-                    <button onclick="setCurrentSystemTimeMinute('52')" class="button">52</button>
-                    <button onclick="setCurrentSystemTimeMinute('53')" class="button">53</button>
-                    <button onclick="setCurrentSystemTimeMinute('54')" class="button">54</button>
-                    <button onclick="setCurrentSystemTimeMinute('55')" class="button">55</button>
-                    <button onclick="setCurrentSystemTimeMinute('56')" class="button">56</button>
-                    <button onclick="setCurrentSystemTimeMinute('57')" class="button">57</button>
-                    <button onclick="setCurrentSystemTimeMinute('58')" class="button">58</button>
-                    <button onclick="setCurrentSystemTimeMinute('59')" class="button">59</button>
-                    <!-- <button onclick="setCurrentSystemTimeMinute('60')" class="button">60</button> -->
-                </div>
-            </div>
-            <div class="dropdown">
-                <button class="dropbtn dropbtn_date">Day</button>
-                <div class="dropdown-content">
-                    <button onclick="setCurrentSystemTimeDay('1')" class="button button3">1</button>
-                    <button onclick="setCurrentSystemTimeDay('2')" class="button button3">2</button>
-                    <button onclick="setCurrentSystemTimeDay('3')" class="button button3">3</button>
-                    <button onclick="setCurrentSystemTimeDay('4')" class="button button3">4</button>
-                    <button onclick="setCurrentSystemTimeDay('5')" class="button button3">5</button>
-                    <button onclick="setCurrentSystemTimeDay('6')" class="button button3">6</button>
-                    <button onclick="setCurrentSystemTimeDay('7')" class="button button3">7</button>
-                    <button onclick="setCurrentSystemTimeDay('8')" class="button button3">8</button>
-                    <button onclick="setCurrentSystemTimeDay('9')" class="button button3">9</button>
-                    <button onclick="setCurrentSystemTimeDay('10')" class="button button3">10</button>
-                    <button onclick="setCurrentSystemTimeDay('11')" class="button button3">11</button>
-                    <button onclick="setCurrentSystemTimeDay('12')" class="button button3">12</button>
-                    <button onclick="setCurrentSystemTimeDay('13')" class="button button3">13</button>
-                    <button onclick="setCurrentSystemTimeDay('14')" class="button button3">14</button>
-                    <button onclick="setCurrentSystemTimeDay('15')" class="button button3">15</button>
-                    <button onclick="setCurrentSystemTimeDay('16')" class="button button3">16</button>
-                    <button onclick="setCurrentSystemTimeDay('17')" class="button button3">17</button>
-                    <button onclick="setCurrentSystemTimeDay('18')" class="button button3">18</button>
-                    <button onclick="setCurrentSystemTimeDay('19')" class="button button3">19</button>
-                    <button onclick="setCurrentSystemTimeDay('20')" class="button button3">20</button>
-                    <button onclick="setCurrentSystemTimeDay('21')" class="button button3">21</button>
-                    <button onclick="setCurrentSystemTimeDay('22')" class="button button3">22</button>
-                    <button onclick="setCurrentSystemTimeDay('23')" class="button button3">23</button>
-                    <button onclick="setCurrentSystemTimeDay('24')" class="button button3">24</button>
-                    <button onclick="setCurrentSystemTimeDay('25')" class="button button3">25</button>
-                    <button onclick="setCurrentSystemTimeDay('26')" class="button button3">26</button>
-                    <button onclick="setCurrentSystemTimeDay('27')" class="button button3">27</button>
-                    <button onclick="setCurrentSystemTimeDay('28')" class="button button3">28</button>
-                    <button onclick="setCurrentSystemTimeDay('29')" class="button button3">29</button>
-                    <button onclick="setCurrentSystemTimeDay('30')" class="button button3">30</button>
-                    <button onclick="setCurrentSystemTimeDay('31')" class="button button3">31</button>
-
-                </div>
-            </div>
-            <div class="dropdown">
-                <button class="dropbtn dropbtn_date">Month</button>
-                <div class="dropdown-content">
-                    <button onclick="setCurrentSystemTimeMonth('1')" class="button button3">1</button>
-                    <button onclick="setCurrentSystemTimeMonth('2')" class="button button3">2</button>
-                    <button onclick="setCurrentSystemTimeMonth('3')" class="button button3">3</button>
-                    <button onclick="setCurrentSystemTimeMonth('4')" class="button button3">4</button>
-                    <button onclick="setCurrentSystemTimeMonth('5')" class="button button3">5</button>
-                    <button onclick="setCurrentSystemTimeMonth('6')" class="button button3">6</button>
-                    <button onclick="setCurrentSystemTimeMonth('7')" class="button button3">7</button>
-                    <button onclick="setCurrentSystemTimeMonth('8')" class="button button3">8</button>
-                    <button onclick="setCurrentSystemTimeMonth('9')" class="button button3">9</button>
-                    <button onclick="setCurrentSystemTimeMonth('10')" class="button button3">10</button>
-                    <button onclick="setCurrentSystemTimeMonth('11')" class="button button3">11</button>
-                    <button onclick="setCurrentSystemTimeMonth('12')" class="button button3">12</button>
-                </div>
-            </div>
-            <div class="dropdown">
-                <button class="dropbtn dropbtn_date">Year</button>
-                <div class="dropdown-content">
-                    <input type="number" id="lyear" name="lyear">
-                    <button onclick="getValueFromInputText()">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <br>
+        <input type="submit">
+    </form>
     <br>
 </body>
 
 
 <script>
     window.onload = function () {
-        getLedsBrightness();
     };
-
-    // Get leds current brightness
-    function getLedsBrightness() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            document.getElementById("ledBrightness").value = this.responseText
-        };
-
-        xhttp.open("GET", "/getLedsBrightness", true);
-        xhttp.send();
-    }
-
-    // On input from slider, open HTTP_GET request and send it to server
-    document.getElementById("ledBrightness").oninput = function () {
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/setLedsBrightness" + "?brightness=" + this.value, true);
-        xhttp.send();
-    }
-
-    // Set new system time in the server, use 'hour' as a parameter.
-    function setCurrentSystemTimeHour(hour) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/setCurrentSystemTime" + "?hour=" + hour, true);
-        xhttp.send();
-    }
-
-    // Set new system date in the server, use 'day' as a parameter.
-    function setCurrentSystemTimeDay(day) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/setCurrentSystemTime" + "?day=" + day, true);
-        xhttp.send();
-    }
-
-    function getValueFromInputText() {
-        var value = document.getElementById("lyear").value;
-        if (value.length != 0) {
-            setCurrentSystemTimeYear(value);
-        }
-
-    }
-    // On input from slider, open HTTP_GET request and send it to server
-    // document.getElementById("lyear").onkeypress = function () {
-    //     if (this.event.key === 'Enter') {
-    //         setCurrentSystemTimeYear(this.value);
-    //     }
-    // }
-
-    // Set new system date in the server, use 'month' as a parameter.
-    function setCurrentSystemTimeYear(year) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/setCurrentSystemTime" + "?year=" + year, true);
-        xhttp.send();
-    }
-
-    // Set new system date in the server, use 'month' as a parameter.
-    function setCurrentSystemTimeMonth(month) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/setCurrentSystemTime" + "?month=" + month, true);
-        xhttp.send();
-    }
-
-    // Set new system time in the server, use 'minute' as a parameter.
-    function setCurrentSystemTimeMinute(minute) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/setCurrentSystemTime" + "?minute=" + minute, true);
-        xhttp.send();
-    }
-
-    // Update systems time on client html
-    function getCurrentSystemTime() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            document.getElementById("currentSystemTime").innerHTML = this.responseText;
-        };
-
-        xhttp.open("GET", "/getCurrentSystemTime", true);
-        xhttp.send();
-    }
-
-    setInterval(getCurrentSystemTime, 1000); //Every 1 secs.
-
-    // Set new weather on the server.
-    function setCurrentSystemSystemWeather(new_weather) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/setCurrentSystemSystemWeather" + "?new_weather=" + new_weather, true);
-        xhttp.send();
-    }
-
-    // Update systems weather on client html
-    function getCurrentSystemWeather() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            document.getElementById("currentSystemWeather").innerHTML = this.responseText;
-        };
-
-        xhttp.open("GET", "/getCurrentSystemWeather", true);
-        xhttp.send();
-    }
-
-    setInterval(getCurrentSystemWeather, 10000); //Every 10 secs.
-
-
-
 
 </script>
 
