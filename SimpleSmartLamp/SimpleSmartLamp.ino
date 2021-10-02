@@ -66,6 +66,11 @@ void setup()
     }
     else
     {
+        // Load stored brightness to memory
+        settings.current_brightness = settings.preferences.getUChar("brightness");
+        setBrightness(settings.current_brightness);
+
+        // Load stored working mode to memory
         settings.mode = static_cast<workingMode>(settings.preferences.getUInt("mode", 0));
         switch (settings.mode)
         {

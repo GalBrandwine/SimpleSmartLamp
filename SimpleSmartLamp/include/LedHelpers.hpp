@@ -70,19 +70,23 @@ void showBlink(CRGB::HTMLColorCode color, int num_of_blinks, int delay_between_b
     }
 }
 /**
- * @brief Change CHSV angle around given color
+ * @brief Change CHSV angle around given color.  
  * 
- * @param current_color 
- * @param angle_width [0-360]
+ * Traverse on the Hue arc from -angle_width to angle_width.
+ * @param current_hue 
+ * @param angle_width [0,rand(0,30)]
  */
-void medusaEffect(int current_color, int angle_width, int delay = 150)
+void medusaEffect(int current_hue, int angle_width, int delay = 150)
 {
+    Serial.println(__FUNCTION__);
+    Serial.printf("Given hue: %d\nGiven angle_width: %d\n", current_hue, angle_width);
+
     auto angle = -angle_width;
     for (; angle < angle_width; angle++)
     {
         for (int i = 0; i < NUM_OF_LEDS; ++i)
         {
-            leds[i].setHue(current_color + angle);
+            leds[i].setHue(current_hue + angle);
         }
         FastLED.show();
         FastLED.delay(delay);
@@ -91,56 +95,10 @@ void medusaEffect(int current_color, int angle_width, int delay = 150)
     {
         for (int i = 0; i < NUM_OF_LEDS; ++i)
         {
-            leds[i].setHue(current_color + angle);
+            leds[i].setHue(current_hue + angle);
         }
         FastLED.show();
         FastLED.delay(delay);
-    }
-}
-
-/**
- * @brief Spiral around given hue
- * 
- * @param hue center of the circle
- * @param radius 
- * @param delay 
- */
-void medusaEffectSpiral(int hue, int radius, int delay = 150)
-{
-    Serial.println(__FUNCTION__);
-
-    // double angle = 0;
-    unsigned char current_hue{0};                         // Initial angle
-    unsigned char current_sat, sat_center = 254 - radius; // move saturation to center of circle
-    auto circle_center = 255 - abs(radius * cos(hue));
-    Serial.printf("circle center: %lf\n", circle_center);
-
-    for (int sat = 0; sat < radius; sat++)
-    {
-        for (int angle = 0; angle < 360; angle++)
-        {
-
-            // current_hue = hue + r * sin(hue);
-            // current_sat = sat_center + r * cos(hue);
-            // current_hue = hue;
-            sat = radius;
-
-            auto xShift{sat * cos(angle)};
-            auto yShift{sat * sin(angle)};
-            Serial.printf("Xshift = %lf\nYshift=%lf\n", xShift, yShift);
-            current_hue = circle_center + xShift + yShift;
-            current_sat = circle_center + sat * cos(angle);
-
-            Serial.printf("Initial params:\nHue: %d\nRadius: %d\n\n", hue, radius);
-            Serial.printf("Angle: %d\nCurrent Hue: %d\nCurrent sat: %d\ncurrent radius: %d\n", angle, current_hue, current_sat, sat);
-
-            for (int i = 0; i < NUM_OF_LEDS; ++i)
-            {
-                leds[i].setHSV(current_hue, current_sat, 255);
-            }
-            FastLED.show();
-            FastLED.delay(delay);
-        }
     }
 }
 
@@ -202,8 +160,8 @@ void ColorByTimeOfDayTask(void *pvParameters)
             auto current_hue = timeToHue();
             Serial.print("Current current_hue: ");
             Serial.println(current_hue * 360);
-            // medusaEffect(current_hue * 360, random(0, 60));
-            medusaEffectSpiral(current_hue * 360, random(1, 50), 500);
+            medusaEffect(current_hue * 360, random(0, 30));
+            // medusaEffectSpiral(current_hue * 360, random(1, 50), 500);
         }
         else
         {

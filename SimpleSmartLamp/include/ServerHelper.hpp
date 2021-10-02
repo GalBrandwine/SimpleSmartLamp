@@ -6,6 +6,12 @@
 #include "/home/gal/dev/SimpleWifiLamp/SimpleSmartLamp/include/LedHelpers.hpp"
 WebServer server(80);
 
+enum FormElements
+{
+    brightness = 0,
+    favcolor,
+    timeofday
+};
 void reboot()
 {
     ESP.restart();
@@ -74,16 +80,17 @@ void initServerStuff(SharedSettings &settings)
                   reboot();
               });
 
-    server.on("/color_selector.php", [&settings]()
+    server.on("/color_selector", [&settings]()
               {
                   unsigned long val{0};
+                  String reply;
 
                   if (server.hasArg("timeofday"))
                   {
                       settings.mode = workingMode::colorByTime;
-                      //   auto val = server.arg(1);
                       Serial.println("Got: timeofday");
                       settings.ColorByTimeOfDay = true;
+                      reply = "Server changed to ColorByTimeOfDay. ";
                   }
                   else
                       settings.ColorByTimeOfDay = false;
@@ -92,7 +99,7 @@ void initServerStuff(SharedSettings &settings)
                   {
                       settings.mode = workingMode::stable;
 
-                      auto arg = server.arg(0);
+                      auto arg = server.arg((int)FormElements::favcolor);
                       Serial.print("Got: favcolor - ");
                       Serial.println(arg);
 
@@ -101,14 +108,27 @@ void initServerStuff(SharedSettings &settings)
                       val = strtoul(colorHtmlCode.c_str(), NULL, 16); // convert value from string to long (rgb values are in hexadecimal)
                       settings.preferences.putULong("color", val);
                       setStableColor(val);
+                      if (!settings.ColorByTimeOfDay)
+                          reply += "Setting stableColor: " + String(val) + " ";
                   }
 
-                  Serial.printf("Storing mode: %d\n", settings.mode);
-                  settings.preferences.putUInt("mode", (unsigned int)settings.mode);
-                  Serial.printf("Done storing mode\n");
+                  if (server.hasArg("brightness"))
+                  {
+                      auto arg = atoi(server.arg((int)FormElements::brightness).c_str());
+                      Serial.printf("Got brightness from client: %d\n", arg);
 
-                  auto reply = "Got " + String(val);
-                  server.send(200, "text/plain", reply);
+                      if (arg != settings.current_brightness)
+                      {
+                          Serial.printf("Brightness updated!\n");
+                          setBrightness(arg);
+                          settings.current_brightness = arg;
+                          settings.preferences.putUChar("brightness", arg);
+                          reply += "Brightness updates to: " + String(arg);
+                      }
+                  }
+
+                  settings.preferences.putUInt("mode", (unsigned int)settings.mode);
+                  server.send_P(200, "text/plain", reply.c_str());
               });
 
     server.onNotFound(handle_notFound);

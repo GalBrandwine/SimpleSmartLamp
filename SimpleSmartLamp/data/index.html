@@ -19,11 +19,17 @@
     <h1>Smart Lamp</h1>
     <h2>Making stupid project using smart ideas</h2>
 
-    <form action="/color_selector">
+    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+
+    <form action="/color_selector" target="dummyframe">
+        <label for="brightness"> Brightness</label>
+        <input type="range" id="brightness" name="brightness" min="0" max="255" value="125" step="1"><br><br>
+
         <label for="favcolor">Select your favorite color:</label>
         <input type="color" id="favcolor" name="favcolor" value="#ff0000"><br><br>
+
         <input type="checkbox" id="timeofday" name="timeofday" value="OK">
-        <label for="vehicle1"> Color by time of day</label><br><br>
+        <label for="timeofday"> Color by time of day</label><br><br>
 
         <input type="submit">
     </form>
@@ -34,7 +40,7 @@
 <script>
     window.onload = function () {
     };
-
+    window.Animation()
 </script>
 
 </html>

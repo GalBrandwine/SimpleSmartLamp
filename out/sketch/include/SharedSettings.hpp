@@ -17,6 +17,7 @@ struct SharedSettings
     Preferences preferences;
     workingMode mode{workingMode::stable};
     bool ColorByTimeOfDay = false;
+    unsigned char current_brightness{0};
 };
 
 /**
