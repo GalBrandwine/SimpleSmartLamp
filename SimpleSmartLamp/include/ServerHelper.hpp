@@ -76,22 +76,11 @@ void initServerStuff(SharedSettings &settings)
 
     server.on("/color_selector.php", [&settings]()
               {
-                  //   // Method 1
-                  //   Serial.println(" - ");
-                  //   for (int arg = 0; arg < server.args(); arg++)
-                  //   {
-                  //       Serial.print("Got:");
-                  //       Serial.print(server.argName(arg));
-                  //       Serial.print(" - ");
-                  //       Serial.println(server.arg(arg));
-                  //   }
-                  //   Serial.println(" - ");
+                  unsigned long val{0};
 
-                  String val;
-
-                  // Method 2
                   if (server.hasArg("timeofday"))
                   {
+                      settings.mode = workingMode::colorByTime;
                       //   auto val = server.arg(1);
                       Serial.println("Got: timeofday");
                       settings.ColorByTimeOfDay = true;
@@ -101,27 +90,25 @@ void initServerStuff(SharedSettings &settings)
 
                   if (server.hasArg("favcolor"))
                   {
-                      Serial.println("Got: favcolor");
+                      settings.mode = workingMode::stable;
+
                       auto arg = server.arg(0);
+                      Serial.print("Got: favcolor - ");
                       Serial.println(arg);
 
-                    //   auto R = arg.substring(1, 3);
-                    //   Serial.println(R);
-                    //   Serial.println(atoi(R.c_str()));
+                      auto colorHtmlCode = arg.substring(1); // Strip the '#' from given HTML color code
 
-                    //   unsigned char buf[6]{0};
-                    //   val.getBytes(buf, 6);
-                    //   for (int i = 0; i < 6; i++)
-                    //   {
-                    //       Serial.println(buf[i]);
-                    //   }
-
-                    //   Serial.println(atoi(arg.substring(1).c_str()));
-                      setStableColor(0);
+                      val = strtoul(colorHtmlCode.c_str(), NULL, 16); // convert value from string to long (rgb values are in hexadecimal)
+                      settings.preferences.putULong("color", val);
+                      setStableColor(val);
                   }
 
-                  auto reply = "Got " + val;
-                  server.send(200, "text/plain", "");
+                  Serial.printf("Storing mode: %d\n", settings.mode);
+                  settings.preferences.putUInt("mode", (unsigned int)settings.mode);
+                  Serial.printf("Done storing mode\n");
+
+                  auto reply = "Got " + String(val);
+                  server.send(200, "text/plain", reply);
               });
 
     server.onNotFound(handle_notFound);

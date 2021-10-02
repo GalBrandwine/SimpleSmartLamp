@@ -58,6 +58,33 @@ void setup()
         return;
     }
 
+    if (!settings.preferences.begin("ledSettings", false))
+    {
+        Serial.println("Error initiating preferences::ledSettings");
+        showBlink(CRGB::Red, 6, 500);
+        return;
+    }
+    else
+    {
+        settings.mode = static_cast<workingMode>(settings.preferences.getUInt("mode", 0));
+        switch (settings.mode)
+        {
+        case workingMode::stable:
+            Serial.printf("Got mode from preference: stable\n");
+            settings.ColorByTimeOfDay = false;
+            setStableColor(settings.preferences.getULong("color", 13209363));
+            break;
+        case workingMode::colorByTime:
+            Serial.printf("Got mode from preference: colorByTime\n");
+            settings.ColorByTimeOfDay = true;
+            break;
+        default:
+            Serial.printf("Could not infer current working mode\n");
+            showBlink(CRGB::Red, 7, 500);
+            break;
+        }
+    }
+
     delay(100);
 }
 

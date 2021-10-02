@@ -1,11 +1,21 @@
 #pragma once
-#include "time.h"
+#include <time.h>
+#include <Preferences.h>
+
 const char *ntpServer = "pool.ntp.org";
 const long gmtOffset_sec = 2 * 60 * 60;
 const int daylightOffset_sec = 3600;
 
+enum workingMode
+{
+    stable,
+    colorByTime
+};
+
 struct SharedSettings
 {
+    Preferences preferences;
+    workingMode mode{workingMode::stable};
     bool ColorByTimeOfDay = false;
 };
 
