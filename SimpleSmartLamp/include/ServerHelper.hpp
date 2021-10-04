@@ -10,8 +10,9 @@ enum FormElements
 {
     brightness = 0,
     favcolor,
-    timeofday
+    operationmode,
 };
+
 void reboot()
 {
     ESP.restart();
@@ -85,31 +86,39 @@ void initServerStuff(SharedSettings &settings)
                   unsigned long val{0};
                   String reply;
 
-                  if (server.hasArg("timeofday"))
+                  if (server.hasArg("operationmode"))
                   {
-                      settings.mode = workingMode::colorByTime;
-                      Serial.println("Got: timeofday");
-                      settings.ColorByTimeOfDay = true;
-                      reply = "Server changed to ColorByTimeOfDay. ";
-                  }
-                  else
-                      settings.ColorByTimeOfDay = false;
 
-                  if (server.hasArg("favcolor"))
-                  {
-                      settings.mode = workingMode::stable;
+                      auto arg = server.arg((int)FormElements::operationmode);
+                      if (arg == "timeofday")
+                      {
+                          Serial.println("Got operation mode: timeofday");
+                          settings.ColorByTimeOfDay = true;
+                          settings.mode = workingMode::colorByTime;
+                          reply = "Server changed to ColorByTimeOfDay. ";
+                      }
+                      else
+                          settings.ColorByTimeOfDay = false;
 
-                      auto arg = server.arg((int)FormElements::favcolor);
-                      Serial.print("Got: favcolor - ");
-                      Serial.println(arg);
+                      if (arg == "favcolor")
+                      {
+                          String colorRaw;
+                          Serial.print("Got operation mode: favcolor");
+                          if (server.hasArg("favcolor"))
+                          {
+                              colorRaw = server.arg((int)FormElements::favcolor);
+                              Serial.println(arg);
+                          }
 
-                      auto colorHtmlCode = arg.substring(1); // Strip the '#' from given HTML color code
+                          auto colorHtmlCode = colorRaw.substring(1); // Strip the '#' from given HTML color code
+                          val = strtoul(colorHtmlCode.c_str(), NULL, 16); // convert value from string to long (rgb values are in hexadecimal)
 
-                      val = strtoul(colorHtmlCode.c_str(), NULL, 16); // convert value from string to long (rgb values are in hexadecimal)
-                      settings.preferences.putULong("color", val);
-                      setStableColor(val);
-                      if (!settings.ColorByTimeOfDay)
+                          settings.preferences.putULong("color", val);
+                          setStableColor(val);
+                          
+                          settings.mode = workingMode::stable;
                           reply += "Setting stableColor: " + String(val) + " ";
+                      }
                   }
 
                   if (server.hasArg("brightness"))

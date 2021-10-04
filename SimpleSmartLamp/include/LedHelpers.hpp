@@ -5,7 +5,7 @@
 #define LED_TYPE WS2812
 #define COLOR_ORDER GRB
 
-#define NUM_OF_LEDS 8
+#define NUM_OF_LEDS 17
 CRGB leds[NUM_OF_LEDS];
 
 /**
