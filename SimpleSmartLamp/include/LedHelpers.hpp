@@ -30,10 +30,8 @@ void setStableColor(unsigned long color)
 
     for (int i = 0; i < NUM_OF_LEDS; ++i)
     {
-        // Serial.printf("Led %d set\n", i);
         leds[i] = color;
     }
-    // Serial.printf("Done setting leds\n");
     FastLED.show();
 }
 
@@ -69,6 +67,7 @@ void showBlink(CRGB::HTMLColorCode color, int num_of_blinks, int delay_between_b
         FastLED.show();
     }
 }
+
 /**
  * @brief Change CHSV angle around given color.  
  * 
@@ -81,8 +80,9 @@ void medusaEffect(int current_hue, int angle_width, int delay = 150)
     Serial.println(__FUNCTION__);
     Serial.printf("Given hue: %d\nGiven angle_width: %d\n", current_hue, angle_width);
 
-    auto angle = -angle_width;
-    for (; angle < angle_width; angle++)
+    // auto angle = -angle_width;
+    // Steer to the left
+    for (int angle = 0; angle > -angle_width; angle--)
     {
         for (int i = 0; i < NUM_OF_LEDS; ++i)
         {
@@ -91,7 +91,28 @@ void medusaEffect(int current_hue, int angle_width, int delay = 150)
         FastLED.show();
         FastLED.delay(delay);
     }
-    for (; angle > -angle_width; angle--)
+    // Come back to original HUE from LEFT
+    for (int angle = -angle_width; angle < 0; angle++)
+    {
+        for (int i = 0; i < NUM_OF_LEDS; ++i)
+        {
+            leds[i].setHue(current_hue + angle);
+        }
+        FastLED.show();
+        FastLED.delay(delay);
+    }
+    // Steer to the right
+    for (int angle = 0; angle < angle_width; angle++)
+    {
+        for (int i = 0; i < NUM_OF_LEDS; ++i)
+        {
+            leds[i].setHue(current_hue + angle);
+        }
+        FastLED.show();
+        FastLED.delay(delay);
+    }
+    // Come back to original HUE from RIGHT
+    for (int angle = angle_width; angle > 0; angle--)
     {
         for (int i = 0; i < NUM_OF_LEDS; ++i)
         {
@@ -131,7 +152,7 @@ const double timeToHue()
     const auto HRS_IN_DAY = 24;
     const auto MAX_HUE = 1.0; // White color - this is the peak of the curve bell
     const auto STD = 0.4;     // Spread the distribution over 60 minutes
-    const auto MEAN = 0;      // Shift the distribution from 0 to 60
+    const auto MEAN = 0;      // Center the gaussian bell around 0
     auto current_hr = timeinfo.tm_hour;
     Serial.println("Current hr: ");
     Serial.println(current_hr);
